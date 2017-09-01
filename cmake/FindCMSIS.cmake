@@ -99,8 +99,11 @@ ENDIF()
 
 IF(NOT CMSIS_FIND_COMPONENTS)
     SET(CMSIS_FIND_COMPONENTS common_headers device_headers startup_source device_source)
-    MESSAGE(STATUS "No CMSIS components selected, using all: ${CMSIS_FIND_COMPONENTS}")
+    IF(NOT CMSIS_FIND_QUIETLY AND NOT ("${CMSIS_COMPONENT_NAG}" STREQUAL "${CMSIS_FIND_COMPONENTS}"))
+        MESSAGE(STATUS "No CMSIS components selected, using all: ${CMSIS_FIND_COMPONENTS}")
+    ENDIF()
 ENDIF()
+SET(CMSIS_COMPONENT_NAG "${CMSIS_FIND_COMPONENTS}" CACHE INTERNAL "Components we've nagged about." FORCE)
 
 
 LIST(FIND CMSIS_FIND_COMPONENTS "common_headers" CMSIS_COMMON_HEADERS_IDX)
